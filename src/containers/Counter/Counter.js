@@ -1,14 +1,15 @@
 import React from 'react'
-import * as actionTypes from '../../store/action'
 import { connect } from 'react-redux'
 import CounterOutput from './../../components/CounterOutput/CounterOutput'
 import CounterControl from './../../components/CounterControl/CounterControl'
+import { increment, decrement, add, subtract, storeResult, deleteResult } from '../../store/actions/action'
 class Counter extends React.Component {
     state = {
         counter: 0
     }
 
     counterChangedHandler = (action, value) => {
+        // eslint-disable-next-line default-case
         switch (action) {
             case 'inc':
                 this.setState((prevState) => { 
@@ -54,7 +55,7 @@ class Counter extends React.Component {
                     clicked={this.props.onSubtractCounter}
                 />
                 <hr/>
-                <button onClick={this.props.onStoreResults}>Store Counter</button>
+                <button onClick={() => this.props.onStoreResults(this.props.ctr)}>Store Counter</button>
                 <ul>
                     {this.props.storeResults.map(strResult => (
                         <li 
@@ -71,19 +72,19 @@ class Counter extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        ctr: state.counter,
-        storeResults: state.results
+        ctr: state.ctr.counter,
+        storeResults: state.res.results
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIncrementCounter: () => dispatch({type: actionTypes.INCREMENT}),
-        onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
-        onAddCounter: () => dispatch({type: actionTypes.ADD, val: 10}),
-        onSubtractCounter: () => dispatch({type: actionTypes.SUBTRACT, val: 15}),
-        onStoreResults: () => dispatch({type: actionTypes.STORE_RESULTS}),
-        onDeleteResult: (id) => dispatch({type: actionTypes.DELETE_RESULT, resultElId: id })
+        onIncrementCounter: () => dispatch(increment),
+        onDecrementCounter: () => dispatch(decrement),
+        onAddCounter: () => dispatch(add(15)),
+        onSubtractCounter: () => dispatch(subtract(15)),
+        onStoreResults: (result) => dispatch(storeResult(result)),
+        onDeleteResult: (id) => dispatch(deleteResult(id))
     };
 }
 

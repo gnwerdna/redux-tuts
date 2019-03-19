@@ -1,11 +1,11 @@
-import * as actionTypes from './action'
+import * as actionTypes from './../actions/action'
 
 const initialState = {
-    counter: 0,
-    results: []
+    counter: 0
 }
 
 const reducer = (state = initialState, action) => {
+    // eslint-disable-next-line default-case
     switch (action.type) {
         case actionTypes.INCREMENT:
             return {
@@ -26,20 +26,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 counter: state.counter - action.val
-            }
-        case actionTypes.STORE_RESULTS:
-            return {
-                ...state,
-                results: state.results.concat({ id: new Date(), value: state.counter })
-            }
-        case actionTypes.DELETE_RESULT:
-            // const id = 2;
-            // const newArr = [...state.results];
-            // newArr.splice(id, 1);
-            const updatedArr = state.results.filter(result => result.id !== action.resultElId);
-            return {
-                ...state,
-                results: updatedArr
             }
     }
     return state;
